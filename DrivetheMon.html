@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mon Forest Route Planner</title>
+    <style>
+      body {
+        font-family: Tahoma, sans-serif;
+        background: #fff;
+        margin: 0;
+        padding: 20px;
+      }
+
+      /* Title styling */
+      .title-container {
+        text-align: center;
+        background-color: #03564B;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      .title-container h1 {
+        color: #99CA3C;
+        margin: 0;
+        font-weight: bold;
+      }
+
+      /* Info box styling */
+      .info-box {
+        background-color: #99CA3C;
+        border: 5px solid #03564B;
+        border-radius: 10px;
+        color: white;
+        padding: 15px;
+        text-align: left;
+        width: 80%;
+        margin: 0 auto 20px auto;
+      }
+
+      .info-box p {
+        margin: 5px 0;
+      }
+
+      .info-box p strong {
+        font-weight: bold;
+      }
+
+      .info-box button {
+        background-color: #03564B;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 10px 5px 0 5px;
+        cursor: pointer;
+        border-radius: 3px;
+        font-size: 16px;
+      }
+
+      /* Center the SVG and add a light border around it */
+      svg {
+        display: block;
+        margin: 0 auto;
+        border: 0px solid #ccc;
+        background-color: #fff;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(1.1);
+          /* Increase to 110% of its size */
+        }
+
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .pulse {
+        transform-origin: center center;
+        /* Ensure scaling from the center */
+        animation: pulse 0.3s linear;
+      }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Title Section -->
+    <div class="title-container">
+      <h1>MON FOREST ROUTE PLANNER</h1>
+    </div>
+    <!-- SVG Map -->
+    <div id="svgContainer">
+      <svg id="Layer_3" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+        <defs>
+          <style>
+            .cls-1 {
+              fill: #fff;
+            }
+
+            .cls-2 {
+              fill: none;
+              stroke: #000;
+              stroke-width: 5px;
+            }
+          </style>
+        </defs>
+        <g>
+          <!-- Route paths (non-circle elements) -->
+          <path id="Cabins_Upper_Tract" data-name="Cabins / Upper Tract" class="cls-2" d="M872.525573,324.564036l-.000023-57.498214c0-1.928341.76603-3.777701,2.129573-5.141244l24.540854-24.540854c1.363543-1.363543,2.129573-3.212904,2.129573-5.141244v-40.188329" />
+          <path id="Parsons_Dryfork" data-name="Parsons / Dryfork" class="cls-2" d="M764.52555,206.454151l-26.699003-26.699003c-1.345246-1.345246-3.169791-2.100997-5.072256-2.100997h-37.257482c-1.902465,0-3.72701-.755751-5.072256-2.100997l-41.099003-41.099003" />
+          <path id="Davis_Dryfork" data-name="Davis / Dryfork" class="cls-2" d="M763.982386,206.230692c.355301-.863609.543164-1.796104.543164-2.747839v-112.228702" />
+          <path id="Harman_Dryfork" data-name="Harman / Dryfork" class="cls-2" d="M728.591003,242.519905l15.134546-15.065753,18.709052-18.888947c.669748-.676188,1.192485-1.470908,1.547784-2.334513" />
+          <path id="Elkins_Harman" data-name="Elkins / Harman" class="cls-2" d="M534.12555,249.654151h105.006224c1.907845,0,3.738187.754901,5.091325,2.099851l17.400317,17.295033c1.347482,1.339329,3.168441,2.093759,5.068303,2.099815l30.038476.095752c1.917706.006113,3.759106-.750731,5.118221-2.103668l26.742588-26.62103" />
+          <path id="Thornwood_Judy_Gap" data-name="Thornwood / Judy Gap" class="cls-2" d="M750.125549,350.454152l-91.435749,91.435749c-1.385746,1.385746-3.265222,2.16425-5.224963,2.16425h-29.878575c-1.959741,0-3.839217.778504-5.224963,2.16425l-19.43575,19.43575" />
+          <line id="Seneca_Rocks_Judy_Gap" data-name="Seneca Rocks / Judy Gap" class="cls-2" x1="807.725552" y1="292.854149" x2="750.125549" y2="350.454152" />
+          <path id="Cabins_Seneca_Rocks" data-name="Cabins / Seneca Rocks" class="cls-2" d="M901.325541,192.054151h-4.139279c-1.959741,0-3.839217.778504-5.224963,2.16425l-17.271499,17.271499c-1.385746,1.385746-2.16425,3.265222-2.16425,5.224963v8.278575c0,1.959741-.778504,3.839217-2.16425,5.224963l-62.635748,62.635748" />
+          <line id="Petersburg_Cabins" data-name="Petersburg / Cabins" class="cls-2" x1="966.12555" y1="192.054151" x2="901.325541" y2="192.054151" />
+          <path id="Huttonsville_Valley_Head" data-name="Huttonsville / Valley Head" class="cls-2" d="M449.462449,355.917252l-42.879315,42.879315c-1.317449,1.317449-2.057584,3.104293-2.057584,4.967448v61.577088" />
+          <path id="Elkins_Huttonsville" data-name="Elkins / Huttonsville" class="cls-2" d="M534.12555,259.231378v9.11291c0,1.863154-.740135,3.649999-2.057584,4.967448l-82.605517,82.605517" />
+          <path id="Elkins_Parsons" data-name="Elkins / Parsons" class="cls-2" d="M642.125519,134.454151h-69.090106c-1.863154,0-3.649999.740135-4.967448,2.057584l-31.884832,31.884832c-1.317449,1.317449-2.057584,3.104293-2.057584,4.967448v67.166468" />
+          <path id="Parsons_Thomas" data-name="Parsons / Thomas" class="cls-2" d="M726.134521,91.254151h-30.699107c-1.863154,0-3.649999.740135-4.967448,2.057584l-34.985103,34.985103" />
+          <line id="Thomas_Davis" data-name="Thomas / Davis" class="cls-2" x1="757.325592" y1="91.254151" x2="744.835454" y2="91.254151" />
+          <path id="Davis_Petersburg" data-name="Davis / Petersburg" class="cls-2" d="M966.12555,201.148585v-92.584571c0-1.863154-.740135-3.649999-2.057584-4.967448l-24.684832-24.684832c-1.317449-1.317449-3.104293-2.057584-4.967448-2.057584h-76.290137s-76.290138,0-76.290138,0c-1.863154,0-3.649997.740135-4.967446,2.057583l-6.291308,6.291305" />
+          <path id="Petersburg_Upper_Tract" data-name="Petersburg / Upper Tract" class="cls-2" d="M873.06032,321.87568c.349715-.844288.864111-1.620362,1.522836-2.279087l89.484811-89.484858c1.317448-1.317449,2.057583-3.104293,2.057583-4.967446v-23.995703" />
+          <path id="Franklin_Upper_Tract" data-name="Franklin / Upper Tract" class="cls-2" d="M843.725547,400.581763l26.718762-26.466055c1.331913-1.319315,2.081242-3.116268,2.081243-4.990991l.000022-44.560682c0-.931574.185034-1.844071.534747-2.688356" />
+          <path id="Franklin_Thornwood" data-name="Franklin / Thornwood" class="cls-2" d="M598.704011,466.188884c.844301.349715,1.620388.864117,2.279123,1.522851l53.484832,53.484832c1.317449,1.317449,3.104293,2.057584,4.967448,2.057584h58.974196c1.866747,0,3.656732-.742984,4.974772-2.06492l106.894925-107.210865" />
+          <path id="Bartow_Thornwood" data-name="Bartow /  Thornwood" class="cls-2" d="M568.534037,465.654151h27.48165c.931563,0,1.844049.185028,2.688325.534733" />
+          <path id="Durbin_Bartow" data-name="Durbin / Bartow" class="cls-2" d="M541.322394,465.021726c.906021.412847,1.8982.632426,2.913019.632426h24.298623" />
+          <path id="Huttonsville_Durbin" data-name="Huttonsville / Durbin" class="cls-2" d="M447.72555,357.654151l41.142416,41.142416c1.317449,1.317449,2.057584,3.104293,2.057584,4.967448v8.580273c0,1.863154.740135,3.649999,2.057584,4.967448l46.284832,46.284832c.599864.599864,1.297042,1.08004,2.054428,1.425159" />
+          <path id="Judy_Gap_Franklin" data-name="Judy Gap / Franklin" class="cls-2" d="M836.52555,408.054151l-26.694991-26.694991c-1.347814-1.347814-3.175843-2.105009-5.081941-2.105009h-22.846136c-1.906097,0-3.734126-.757194-5.081941-2.105009l-26.694991-26.694991" />
+          <path id="Harman_Seneca_Rocks" data-name="Harman / Seneca Rocks" class="cls-2" d="M728.52555,242.454151l19.573715,19.573715c1.297409,1.297409,3.057583,2.026285,4.891885,2.026285h23.0688c1.834813,0,3.594476.728877,4.891885,2.026285l26.773715,26.773715" />
+          <path id="Bartow_Greenbank" data-name="Bartow / Greenbank" class="cls-2" d="M539.773392,539.206309l13.926072-13.926072c1.297281-1.297281,2.026086-3.056772,2.026086-4.891405v-15.869363c0-1.834633.728805-3.594124,2.026086-4.891405l10.347828-10.347828c1.297281-1.297281,2.026086-3.056772,2.026086-4.891405v-18.734681" />
+          <line id="Greenbank_Dunmore" data-name="Greenbank / Dunmore" class="cls-2" x1="505.325553" y1="573.654148" x2="539.773392" y2="539.206309" />
+          <path id="Dunmore_Huntersville" data-name="Dunmore / Huntersville" class="cls-2" d="M438.216955,664.945556c-2.701448-2.701448-2.701448-7.081361,0-9.78281l21.882509-21.882509c1.297281-1.297281,2.026086-3.056772,2.026086-4.891405v-8.669363c0-1.834633.728805-3.594124,2.026086-4.891405l41.173917-41.173917" />
+          <path id="Dunmore_Minnehaha_Springs" data-name="Dunmore / Minnehaha Springs" class="cls-2" d="M505.32555,573.654151l16.708595,16.708595c2.701448,2.701448,2.701448,7.081361,0,9.78281l-14.682509,14.682509c-1.297281,1.297281-2.026086,3.056772-2.026086,4.891405v8.669363c0,1.834633-.728805,3.594124-2.026086,4.891405l-43.482509,43.482509c-1.146743,1.146743-3.43333,3.35458-7.900922,1.881887" />
+          <path id="Lewisburg_Richwood" data-name="Lewisburg / Richwood" class="cls-2" d="M188.52555,904.854151l-113.186477-113.186477c-1.289237-1.289237-2.013523-3.037818-2.013523-4.861074v-109.504898c0-1.823256.724286-3.571836,2.013522-4.861073l19.586478-19.586484" />
+          <path id="White_Sulphur_Springs_Lewisburg" data-name="White Sulphur Springs / Lewisburg" class="cls-2" d="M231.72555,926.454144h0l-18.752447.000006c-1.823257,0-3.571839-.724285-4.861077-2.013523l-19.586476-19.586476" />
+          <path id="Minnehaha_Springs_White_Sulphur_Springs" data-name="Minnehaha Springs / White Sulphur Springs" class="cls-2" d="M454.30665,681.651026c.404017.886629.6189,1.857576.6189,2.850677v51.904897c0,1.823257-.724286,3.571837-2.013523,4.861074l-75.172954,75.172954c-1.289237,1.289237-3.037818,2.013523-4.861074,2.013523h-15.904897c-1.823257,0-3.571837.724286-4.861074,2.013523l-10.372954,10.372954c-1.289237,1.289237-3.037818,2.013523-4.861074,2.013523h-1.504897c-1.823257,0-3.571837.724286-4.861074,2.013523l-17.572954,17.572954c-1.289237,1.289237-2.013523,3.037818-2.013523,4.861074v8.704897c0,1.823257-.724286,3.571837-2.013523,4.861074l-53.572953,53.572953c-1.289238,1.289238-3.037819,2.013523-4.861077,2.013523l-18.752447-.000006" />
+          <path id="Huntersville_Minnehaha_Springs" data-name="Huntersville / Minnehaha Springs" class="cls-2" d="M435.421345,662.149946l17.490682,17.490682c.587008.587008,1.056896,1.269244,1.394623,2.010397" />
+          <path id="Marlinton_Huntersville" data-name="Marlinton / Huntersville" class="cls-2" d="M390.342302,653.377457c.826208-.342227,1.719168-.523299,2.630798-.523299l30.304898-.000006c1.823257,0,3.571838.724285,4.861076,2.013523l7.282272,7.282272" />
+          <path id="Marlinton_Mill_Point" data-name="Marlinton / Mill Point" class="cls-2" d="M332.525591,696.054151h11.552407c1.823257,0,3.571837-.724286,4.861074-2.013523l12.386477-12.386477,7.2-7.2,7.2-7.2,12.386478-12.386472c.644617-.644617,1.404069-1.147996,2.230274-1.490222" />
+          <path id="Mill_Point_Lewisburg" data-name="Mill Point / Lewisburg" class="cls-2" d="M188.52555,904.854151v-33.152449c0-1.823257.724286-3.571837,2.013523-4.861074l17.572954-17.572954c1.289237-1.289237,2.013523-3.037818,2.013523-4.861074v-30.304897c0-1.823257.724286-3.571837,2.013523-4.861074l91.586477-91.586477,19.586477-19.586477c1.289237-1.289237,3.037818-2.013523,4.861074-2.013523h4.35249" />
+          <path id="Cowen_Williams" data-name="Cowen / Williams" class="cls-2" d="M310.92555,588.054151h-14.4s-50.4,0-50.4,0h-47.520246c-1.843875,0-3.612231-.732477-4.916047-2.036293l-17.527413-17.527413c-1.303817-1.303817-3.072172-2.036293-4.916047-2.036293h-23.040492c-1.843875,0-3.612231-.732477-4.916047-2.036293l-10.327413-10.327413c-1.303817-1.303817-3.072172-2.036293-4.916047-2.036293h-33.120246" />
+          <path id="Edray_Williams" data-name="Edray / Williams" class="cls-2" d="M375.72555,609.654151h-4.320246c-1.843875,0-3.612231-.732477-4.916047-2.036293l-17.527413-17.527413c-1.303817-1.303817-3.072172-2.036293-4.916047-2.036293h-33.120246" />
+          <path id="Richwood_Cranberry" data-name="Richwood / Cranberry" class="cls-2" d="M95.142658,652.329892c.827701.342851,1.722277.524254,2.635556.524255l4.347336.000004h90.747331c1.826533,0,3.578256.725587,4.86981,2.017141l24.765717,24.765717c1.291554,1.291554,3.043277,2.017141,4.86981,2.017141h71.68076-2.533429" />
+          <path id="Richwood_Cowen" data-name="Richwood / Cowen" class="cls-2" d="M95.142701,552.578387c-.827693.342841-1.588514.847127-2.234293,1.492905l-17.565717,17.565717c-1.291554,1.291554-2.017141,3.043277-2.017141,4.86981v51.894662c0,1.826533.725588,3.578257,2.017142,4.869811l17.565719,17.565714c.645766.645766,1.406571,1.150045,2.234246,1.492886" />
+          <path id="Valley_Head_Cowen" data-name="Valley Head / Cowen" class="cls-2" d="M402.753697,460.729525c-1.260446-1.397179-3.085216-2.275373-5.115099-2.275373h-98.26038c-1.826533,0-3.578256.725587-4.86981,2.017141l-17.565717,17.565717c-1.291554,1.291554-3.043277,2.017141-4.86981,2.017141h-37.494663c-1.826533,0-3.578256.725587-4.86981,2.017141l-53.565717,53.565717c-1.291554,1.291554-3.043277,2.017141-4.86981,2.017141h-23.094663c-1.826533,0-3.578256.725587-4.86981,2.017141l-10.365717,10.365717c-.364782.364782-2.446482,1.66081-2.875997,1.931701,0,0-34.915341-.024511-35.141144.08544" />
+          <path id="Snowshoe_Valley_Head" data-name="Snowshoe / Valley Head" class="cls-2" d="M402.508408,532.471293c1.291554-1.291554,2.017141-3.043277,2.017141-4.86981v-62.26038c0-1.773675-.670497-3.390748-1.771853-4.611578" />
+          <path id="Edray_Snowshoe" data-name="Edray / Snowshoe" class="cls-2" d="M375.72555,609.654149v-35.999998s0-14.4,0-14.4v-11.547331c0-1.826533.725587-3.578256,2.017141-4.86981l3.165717-3.165717c1.291554-1.291554,3.043277-2.017141,4.86981-2.017141h8.694663c1.826533,0,3.578256-.725587,4.86981-2.017141l3.165717-3.165717" />
+          <path id="Marlinton_Edray" data-name="Marlinton / Edray" class="cls-2" d="M390.12555,652.854158l-12.38286-12.382866c-1.291553-1.291554-2.01714-3.043276-2.01714-4.869809v-25.947334" />
+          <path id="Highland_Scenic_Highway" data-name="Highland Scenic Highway" class="cls-2" d="M299.484033,681.654157c-.000001-1.827904.69732-3.655809,2.091964-5.050452l.057589-.057589c1.339462-1.339462,2.091964-3.156162,2.091964-5.050447v-73.283033c0-1.894285.752502-3.710985,2.091964-5.050447l5.108036-5.108036" />
+          <path id="Mill_Point_Cranberry" data-name="Mill Point / Cranberry" class="cls-2" d="M332.52555,696.054151l-5.108036-5.108036c-1.339462-1.339462-3.156162-2.091964-5.050447-2.091964h-15.683033c-1.894285,0-3.710985-.752502-5.050447-2.091964l-.057589-.057589c-1.394641-1.394641-2.091962-3.222541-2.091964-5.050442" />
+          <path id="Snowshoe_Greenbank" data-name="Snowshoe / Greenbank" class="cls-2" d="M541.274782,538.292942h-126.628014c-1.919258,0-3.759523-.76422-5.114178-2.123801l-2.952536-2.963272c-1.348246-1.353148-2.105272-3.185472-2.105272-5.095649v-4.217278" />
+        </g>
+        <g id="Circles">
+          <!-- Circle groups representing Towns -->
+          <g id="Parsons">
+            <!-- Only update the fill of the path with class "cls-1" -->
+            <path class="cls-1" d="M649.325195,143.654297c-5.072266,0-9.199219-4.126953-9.199219-9.200195,0-5.072754,4.126953-9.199707,9.199219-9.199707,5.073242,0,9.200195,4.126953,9.200195,9.199707,0,5.073242-4.126953,9.200195-9.200195,9.200195Z" />
+            <path d="M649.325439,127.25415c3.976562,0,7.200195,3.223572,7.200195,7.200012s-3.223633,7.200012-7.200195,7.200012c-3.976318,0-7.199951-3.223572-7.199951-7.200012s3.223633-7.200012,7.199951-7.200012M649.325439,123.25415c-6.175781,0-11.199951,5.024292-11.199951,11.200012s5.02417,11.200012,11.199951,11.200012,11.200195-5.024292,11.200195-11.200012-5.024414-11.200012-11.200195-11.200012h0Z" />
+          </g>
+          <g id="Thomas">
+            <path class="cls-1" d="M735.725586,100.454102c-5.073242,0-9.200195-4.126953-9.200195-9.199707,0-5.073242,4.126953-9.200195,9.200195-9.200195s9.200195,4.126953,9.200195,9.199707c0,5.073242-4.126953,9.200195-9.200195,9.200195Z" />
+            <path d="M735.725586,84.054138c3.976318,0,7.199951,3.223572,7.199951,7.200012s-3.223633,7.200012-7.199951,7.200012c-3.976562,0-7.199951-3.223572-7.199951-7.200012s3.223389-7.200012,7.199951-7.200012M735.725586,80.054138c-6.175781,0-11.199951,5.024292-11.199951,11.200012s5.02417,11.200012,11.199951,11.200012,11.199951-5.024292,11.199951-11.200012-5.02417-11.200012-11.199951-11.200012h0Z" />
+          </g>
+          <g id="Davis">
+            <path class="cls-1" d="M764.525391,100.454102c-5.073242,0-9.200195-4.126953-9.200195-9.199707,0-5.073242,4.126953-9.200195,9.200195-9.200195s9.200195,4.126953,9.200195,9.199707c0,5.073242-4.126953,9.200195-9.200195,9.200195Z" />
+            <path d="M764.525635,84.054138c3.976318,0,7.199951,3.223572,7.199951,7.200012s-3.223633,7.200012-7.199951,7.200012c-3.976562,0-7.200195-3.223572-7.200195-7.200012s3.223633-7.200012,7.199951-7.200012M764.525635,80.054138c-6.175781,0-11.200195,5.024292-11.200195,11.200012s5.024414,11.200012,11.200195,11.200012,11.199951-5.024292,11.199951-11.200012-5.02417-11.200012-11.199951-11.200012h0Z" />
+          </g>
+          <g id="Seneca_Rocks" data-name="Seneca Rocks">
+            <path class="cls-1" d="M808.525391,301.454102c-5.073242,0-9.200195-4.126953-9.200195-9.199707,0-5.073242,4.126953-9.200195,9.200195-9.200195s9.200195,4.126953,9.200195,9.199707c0,5.073242-4.126953,9.200195-9.200195,9.200195Z" />
+            <path d="M808.525635,285.054138c3.976318,0,7.199951,3.223572,7.199951,7.200012s-3.223633,7.200012-7.199951,7.200012c-3.976562,0-7.200195-3.223572-7.200195-7.200012s3.223633-7.200012,7.200195-7.200012M808.525635,281.054138c-6.175781,0-11.200195,5.024292-11.200195,11.200012s5.024414,11.200012,11.200195,11.200012,11.199951-5.024292,11.199951-11.200012-5.02417-11.200012-11.199951-11.200012h0Z" />
+          </g>
+          <g id="Petersburg">
+            <path class="cls-1" d="M966.125977,201.254395c-5.073242,0-9.200195-4.126953-9.200195-9.200195s4.126953-9.200195,9.200195-9.200195c5.072266,0,9.199219,4.126953,9.199219,9.200195s-4.126953,9.200195-9.199219,9.200195Z" />
+            <path d="M966.125488,184.854126c3.976562,0,7.199951,3.223572,7.199951,7.200012s-3.223389,7.200012-7.199951,7.200012c-3.976318,0-7.199951-3.223572-7.199951-7.200012s3.223633-7.200012,7.199951-7.200012M966.125488,180.854126c-6.175781,0-11.199951,5.024292-11.199951,11.200012s5.02417,11.200012,11.199951,11.200012,11.199951-5.024292,11.199951-11.200012-5.02417-11.200012-11.199951-11.200012h0Z" />
+          </g>
+          <g id="Franklin">
+            <path class="cls-1" d="M836.525391,417.254395c-5.073242,0-9.200195-4.126953-9.200195-9.200195s4.126953-9.200195,9.200195-9.200195,9.200195,4.126953,9.200195,9.200195-4.126953,9.200195-9.200195,9.200195Z" />
+            <path d="M836.525635,400.854126c3.976318,0,7.199951,3.223572,7.199951,7.200012s-3.223633,7.200012-7.199951,7.200012c-3.976562,0-7.200195-3.223572-7.200195-7.200012s3.223633-7.200012,7.200195-7.200012M836.525635,396.854126c-6.175781,0-11.200195,5.024292-11.200195,11.200012s5.024414,11.200012,11.200195,11.200012,11.199951-5.024292,11.199951-11.200012-5.02417-11.200012-11.199951-11.200012h0Z" />
+          </g>
+          <g id="Durbin">
+            <path class="cls-1" d="M541.325195,474.854004c-5.072266,0-9.199219-4.126953-9.199219-9.199707,0-5.073242,4.126953-9.200195,9.200195-9.200195,5.072266,0,9.200195,4.126953,9.200195,9.199219,0,5.072754-4.126953,9.199707-9.200195,9.199707Z" />
+            <path d="M541.325439,458.454163c3.976562,0,7.200195,3.223511,7.200195,7.199951v.000061c0,3.97644-3.223633,7.199951-7.200195,7.199951-3.976318,0-7.199951-3.223511-7.200195-7.199951v-.000061c0-3.97644,3.223633-7.199951,7.199951-7.199951M541.325439,454.454163c-6.175781,0-11.199951,5.024292-11.199951,11.199951,0,6.17572,5.02417,11.200012,11.199951,11.200012s11.200195-5.024292,11.200195-11.199951c0-6.17572-5.024414-11.200012-11.200195-11.200012h0Z" />
+          </g>
+          <g id="Elkins">
+            <path class="cls-1" d="M534.125977,258.854004c-5.073242,0-9.200195-4.126953-9.200195-9.199707,0-5.073242,4.126953-9.200195,9.200195-9.200195,5.072266,0,9.199219,4.126953,9.199219,9.200195,0,5.072754-4.126953,9.199707-9.199219,9.199707Z" />
+            <path d="M534.125488,242.454163c3.976562,0,7.199951,3.223511,7.199951,7.199951v.000061c0,3.97644-3.223389,7.199951-7.199951,7.199951-3.976318,0-7.199951-3.223511-7.199951-7.199951v-.000061c0-3.97644,3.223633-7.199951,7.199951-7.199951M534.125488,238.454163c-6.175781,0-11.199951,5.024292-11.199951,11.199951,0,6.17572,5.02417,11.200012,11.199951,11.200012s11.199951-5.024292,11.199951-11.199951c0-6.17572-5.02417-11.200012-11.199951-11.200012h0Z" />
+          </g>
+          <g id="Marlinton">
+            <path class="cls-1" d="M390.125977,662.053711c-5.073242,0-9.200195-4.126953-9.200195-9.199219,0-5.073242,4.126953-9.200195,9.200195-9.200195,5.072266,0,9.199219,4.126953,9.199219,9.200195,0,5.072266-4.126953,9.199219-9.199219,9.199219Z" />
+            <path d="M390.125488,645.654144c3.976562,0,7.199951,3.223541,7.199951,7.200012,0,3.97644-3.223389,7.200982-7.199951,7.200982-3.976318,0-7.199951-3.223541-7.199951-7.200982,0-3.976471,3.223633-7.200012,7.199951-7.200012M390.125488,641.654144c-6.175781,0-11.199951,5.024292-11.199951,11.200012s5.02417,11.199982,11.199951,11.199982,11.199951-5.024292,11.199951-11.199982-5.02417-11.200012-11.199951-11.200012h0Z" />
+          </g>
+          <g id="Richwood">
+            <path class="cls-1" d="M94.925781,662.053711c-5.073242,0-9.200195-4.126953-9.200195-9.199219,0-5.073242,4.126953-9.200195,9.200195-9.200195,5.072266,0,9.200195,4.126953,9.200195,9.200195,0,5.072266-4.126953,9.199219-9.200195,9.199219Z" />
+            <path d="M94.925537,645.654144c3.976562,0,7.199951,3.223541,7.199951,7.199982v.000031c0,3.97644-3.223389,7.199982-7.199951,7.199982s-7.199951-3.223541-7.199951-7.199982v-.000031c0-3.97644,3.223389-7.199982,7.199951-7.199982M94.925537,641.654144c-6.175781,0-11.199951,5.024292-11.199951,11.199982s5.02417,11.200012,11.199951,11.200012,11.199951-5.024292,11.199951-11.199982-5.02417-11.200012-11.199951-11.200012h0Z" />
+          </g>
+          <g id="Cowen">
+            <path class="cls-1" d="M94.925781,561.253906c-5.073242,0-9.200195-4.126953-9.200195-9.200195,0-5.072266,4.126953-9.199219,9.200195-9.199219s9.200195,4.126953,9.200195,9.199219c0,5.073242-4.126953,9.200195-9.200195,9.200195Z" />
+            <path d="M94.925537,544.854156c3.976562,0,7.199951,3.223541,7.199951,7.199982v.000031c0,3.97644-3.223389,7.199982-7.199951,7.199982s-7.199951-3.223541-7.199951-7.199982v-.000031c0-3.97644,3.223389-7.199982,7.199951-7.199982M94.925537,540.854156c-6.175781,0-11.199951,5.024292-11.199951,11.199982s5.02417,11.200012,11.199951,11.200012,11.199951-5.024292,11.199951-11.199982-5.02417-11.200012-11.199951-11.200012h0Z" />
+          </g>
+          <g id="White_Sulphur_Springs" data-name="White Sulphur Springs">
+            <path class="cls-1" d="M231.725586,935.654297c-5.073242,0-9.200195-4.126953-9.200195-9.200195s4.126953-9.200195,9.200195-9.200195,9.200195,4.126953,9.200195,9.200195-4.126953,9.200195-9.200195,9.200195Z" />
+            <path d="M231.725586,919.25415c3.976318,0,7.199951,3.223534,7.199951,7.199989v.000015c0,3.97644-3.223633,7.199989-7.199951,7.199989-3.976562,0-7.199951-3.223549-7.199951-7.199989v-.000015c0-3.976456,3.223389-7.199989,7.199951-7.199989M231.725586,915.25415c-6.175781,0-11.199951,5.024284-11.199951,11.199989s5.02417,11.200008,11.199951,11.200008,11.199951-5.024288,11.199951-11.199993-5.02417-11.200005-11.199951-11.200005h0Z" />
+          </g>
+        </g>
+      </svg>
+    </div>
+    <!-- Info Box (above the SVG) -->
+    <div class="info-box" id="infoBox">
+      <p>
+        <strong>Route:</strong>
+        <span id="route-info"></span>
+      </p>
+      <p>
+        <strong>Distance:</strong>
+        <span id="distance-info"></span>
+      </p>
+      <p>
+        <strong>Time:</strong>
+        <span id="time-info"></span>
+      </p>
+      <p>
+        <strong>Town(s):</strong>
+        <span id="town-info"></span>
+      </p>
+      <p>
+        <strong>Reservoir:</strong>
+        <span id="reservoir-info"></span>
+      </p>
+      <button id="clearBtn">Clear Selection</button>
+      <button id="printBtn">Print Selection</button>
+      <button id="mapRouteBtn">Get Driving Route</button>
+    </div>
+    <!-- Load html2canvas for printing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+      /* ----- Data Definitions ----- */
+      const routeData = {
+        "Cabins_Upper_Tract": {
+          name: "Cabins / Upper Tract",
+          distance: 21,
+          time: 45,
+          gps: {
+            lat: 38.85848361694482,
+            lng: -79.27943488367762
+          }
+        },
+        "Parsons_Dryfork": {
+          name: "Parsons / Dryfork",
+          distance: 20,
+          time: 35,
+          gps: {
+            lat: 38.9684445889424,
+            lng: -79.5027789978524
+          }
+        },
+        "Davis_Dryfork": {
+          name: "Davis / Dryfork",
+          distance: 15,
+          time: 20,
+          gps: {
+            lat: 38.9684445889424,
+            lng: -79.5027789978524
+          }
+        },
+        "Harman_Dryfork": {
+          name: "Harman / Dryfork",
+          distance: 4,
+          time: 5
+        },
+        "Elkins_Harman": {
+          name: "Elkins / Harman",
+          distance: 23,
+          time: 30,
+          gps: {
+            lat: 38.92088884312237,
+            lng: -79.5242154923078
+          }
+        },
+        "Thornwood_Judy_Gap": {
+          name: "Thornwood / Judy Gap",
+          distance: 22,
+          time: 25
+        },
+        "Seneca_Rocks_Judy_Gap": {
+          name: "Seneca Rocks / Judy Gap",
+          distance: 11,
+          time: 15
+        },
+        "Cabins_Seneca_Rocks": {
+          name: "Cabins / Seneca Rocks",
+          distance: 17,
+          time: 20
+        },
+        "Petersburg_Cabins": {
+          name: "Petersburg / Cabins",
+          distance: 5,
+          time: 10
+        },
+        "Huttonsville_Valley_Head": {
+          name: "Huttonsville / Valley Head",
+          distance: 13,
+          time: 20
+        },
+        "Elkins_Huttonsville": {
+          name: "Elkins / Huttonsville",
+          distance: 19,
+          time: 25,
+          gps: {
+            lat: 38.71288262248153,
+            lng: -79.97885081808997
+          }
+        },
+        "Elkins_Parsons": {
+          name: "Elkins / Parsons",
+          distance: 22,
+          time: 30,
+          gps: {
+            lat: 39.06845769944056,
+            lng: -79.81005140388595
+          }
+        },
+        "Parsons_Thomas": {
+          name: "Parsons / Thomas",
+          distance: 14,
+          time: 20
+        },
+        "Thomas_Davis": {
+          name: "Thomas / Davis",
+          distance: 3,
+          time: 5
+        },
+        "Davis_Petersburg": {
+          name: "Davis / Petersburg",
+          distance: 43,
+          time: 45
+        },
+        "Petersburg_Upper_Tract": {
+          name: "Petersburg / Upper Tract",
+          distance: 17,
+          time: 20
+        },
+        "Franklin_Upper_Tract": {
+          name: "Franklin / Upper Tract",
+          distance: 13,
+          time: 15
+        },
+        "Franklin_Thornwood": {
+          name: "Franklin / Thornwood",
+          distance: 44,
+          time: 60,
+          gps: {
+            lat: 38.41040751005011,
+            lng: -79.57963341830671
+          }
+        },
+        "Bartow_Thornwood": {
+          name: "Bartow / Thornwood",
+          distance: 2,
+          time: 5
+        },
+        "Durbin_Bartow": {
+          name: "Durbin / Bartow",
+          distance: 3,
+          time: 5
+        },
+        "Huttonsville_Durbin": {
+          name: "Huttonsville / Durbin",
+          distance: 19,
+          time: 25
+        },
+        "Judy_Gap_Franklin": {
+          name: "Judy Gap / Franklin",
+          distance: 18,
+          time: 25
+        },
+        "Harman_Seneca_Rocks": {
+          name: "Harman / Seneca Rocks",
+          distance: 12,
+          time: 20
+        },
+        "Bartow_Greenbank": {
+          name: "Bartow / Greenbank",
+          distance: 12,
+          time: 15,
+          gps: {
+            lat: 38.4195199872551,
+            lng: -79.83173575017416
+          }
+        },
+        "Greenbank_Dunmore": {
+          name: "Greenbank / Dunmore",
+          distance: 4,
+          time: 5
+        },
+        "Dunmore_Huntersville": {
+          name: "Dunmore / Huntersville",
+          distance: 15,
+          time: 20
+        },
+        "Dunmore_Minnehaha_Springs": {
+          name: "Dunmore / Minnehaha Springs",
+          distance: 17,
+          time: 20,
+          gps: {
+            lat: 38.27068144182274,
+            lng: -79.8763426485391
+          }
+        },
+        "Lewisburg_Richwood": {
+          name: "Lewisburg / Richwood",
+          distance: 54,
+          time: 60
+        },
+        "White_Sulphur_Springs_Lewisburg": {
+          name: "White Sulphur Springs / Lewisburg",
+          distance: 10,
+          time: 15
+        },
+        "Minnehaha_Springs_White_Sulphur_Springs": {
+          name: "Minnehaha Springs / White Sulphur Springs",
+          distance: 36,
+          time: 45
+        },
+        "Huntersville_Minnehaha_Springs": {
+          name: "Huntersville / Minnehaha Springs",
+          distance: 4,
+          time: 5
+        },
+        "Marlinton_Huntersville": {
+          name: "Marlinton / Huntersville",
+          distance: 5,
+          time: 10
+        },
+        "Marlinton_Mill_Point": {
+          name: "Marlinton / Mill Point",
+          distance: 9,
+          time: 15
+        },
+        "Mill_Point_Lewisburg": {
+          name: "Mill Point / Lewisburg",
+          distance: 33,
+          time: 45,
+          gps: {
+            lat: 38.10926835555986,
+            lng: -80.26901561587135
+          }
+        },
+        "Cowen_Williams": {
+          name: "Cowen / Williams",
+          distance: 25,
+          time: 45,
+          gps: {
+            lat: 38.34973224171759,
+            lng: -80.25395481424165
+          }
+        },
+        "Edray_Williams": {
+          name: "Edray / Williams",
+          distance: 9,
+          time: 10
+        },
+        "Richwood_Cranberry": {
+          name: "Richwood / Cranberry",
+          distance: 22,
+          time: 30
+        },
+        "Richwood_Cowen": {
+          name: "Richwood / Cowen",
+          distance: 23,
+          time: 30
+        },
+        "Valley_Head_Cowen": {
+          name: "Valley Head / Cowen",
+          distance: 44,
+          time: 60,
+          gps: {
+            lat: 38.47968625780289,
+            lng: -80.41249953869638
+          }
+        },
+        "Snowshoe_Valley_Head": {
+          name: "Snowshoe / Valley Head",
+          distance: 11,
+          time: 15
+        },
+        "Edray_Snowshoe": {
+          name: "Edray / Snowshoe",
+          distance: 14,
+          time: 20
+        },
+        "Marlinton_Edray": {
+          name: "Marlinton / Edray",
+          distance: 7,
+          time: 10
+        },
+        "Highland_Scenic_Highway": {
+          name: "Highland Scenic Highway",
+          distance: 22,
+          time: 25,
+          gps: {
+            lat: 38.27085401468762,
+            lng: -80.23817729846046
+          }
+        },
+        "Mill_Point_Cranberry": {
+          name: "Mill Point / Cranberry",
+          distance: 6,
+          time: 10
+        },
+        "Snowshoe_Greenbank": {
+          name: "Snowshoe / Greenbank",
+          distance: 16,
+          time: 30,
+          gps: {
+            lat: 38.39676196928164,
+            lng: -79.91507018644846
+          }
+        }
+      };
+      const townData = {
+        "Parsons": {
+          name: "Parsons",
+          reservoirs: ["Pittsburgh", "Washington-Arlington-Alexandria", "Baltimore-Columbia-Towson"],
+          gps: {
+            lat: 39.09642199579547,
+            lng: -79.68073681655646
+          }
+        },
+        "Thomas": {
+          name: "Thomas",
+          reservoirs: ["Pittsburgh", "Washington-Arlington-Alexandria", "Baltimore-Columbia-Towson"],
+          gps: {
+            lat: 39.14884567363527,
+            lng: -79.49774262759045
+          }
+        },
+        "Davis": {
+          name: "Davis",
+          reservoirs: ["Pittsburgh", "Washington-Arlington-Alexandria", "Baltimore-Columbia-Towson"],
+          gps: {
+            lat: 39.12860923664961,
+            lng: -79.46530074241024
+          }
+        },
+        "Elkins": {
+          name: "Elkins",
+          reservoirs: ["Pittsburgh", "Washington-Arlington-Alexandria", "Frederick"],
+          gps: {
+            lat: 38.92596481962621,
+            lng: -79.84683228864952
+          }
+        },
+        "Petersburg": {
+          name: "Petersburg",
+          reservoirs: ["Pittsburgh", "Washington-Arlington-Alexandria", "Baltimore-Columbia-Towson"],
+          gps: {
+            lat: 38.99252488882068,
+            lng: -79.12407882634648
+          }
+        },
+        "Durbin": {
+          name: "Durbin",
+          reservoirs: ["Pittsburgh", "Washington-Arlington-Alexandria", "Richmond"],
+          gps: {
+            lat: 38.54580423847218,
+            lng: -79.82510764843187
+          }
+        },
+        "Richwood": {
+          name: "Richwood",
+          reservoirs: ["Columbus", "Charleston", "Pittsburgh"],
+          gps: {
+            lat: 38.224958928453425,
+            lng: -80.53267138980232
+          }
+        },
+        "Marlinton": {
+          name: "Marlinton",
+          reservoirs: ["Pittsburgh", "Washington-Arlington-Alexandria", "Richmond"],
+          gps: {
+            lat: 38.223356443930655,
+            lng: -80.09468568818053
+          }
+        },
+        "Franklin": {
+          name: "Franklin",
+          reservoirs: ["Pittsburgh", "Washington-Arlington-Alexandria", "Richmond"],
+          gps: {
+            lat: 38.64284376616398,
+            lng: -79.3315751733448
+          }
+        },
+        "Seneca_Rocks": {
+          name: "Seneca Rocks",
+          reservoirs: ["Pittsburgh", "Washington-Arlington-Alexandria", "Richmond"],
+          gps: {
+            lat: 38.8357679029132,
+            lng: -79.37555592766752
+          }
+        },
+        "White_Sulphur_Springs": {
+          name: "White Sulphur Springs",
+          reservoirs: ["Greensboro-High Point", "Winston-Salem", "Charlotte-Concord-Gastonia"],
+          gps: {
+            lat: 37.79604396506982,
+            lng: -80.29909233841745
+          }
+        },
+        "Cowen": {
+          name: "Cowen",
+          reservoirs: ["Columbus", "Charleston", "Pittsburgh"],
+          gps: {
+            lat: 38.409494589966364,
+            lng: -80.55772782423465
+          }
+        }
+      };
+      let selectedRoutes = [];
+      let selectedTowns = [];
+      /* ----- Update Info Box ----- */
+      function updateInfoBox() {
+        const routeInfoEl = document.getElementById("route-info");
+        const distanceInfoEl = document.getElementById("distance-info");
+        const timeInfoEl = document.getElementById("time-info");
+        const townInfoEl = document.getElementById("town-info");
+        const reservoirInfoEl = document.getElementById("reservoir-info");
+        if (selectedRoutes.length === 0) {
+          routeInfoEl.textContent = "";
+          distanceInfoEl.textContent = "";
+          timeInfoEl.textContent = "";
+        } else if (selectedRoutes.length === 1) {
+          const data = routeData[selectedRoutes[0]];
+          routeInfoEl.textContent = data.name;
+          distanceInfoEl.textContent = data.distance + " miles";
+          if (data.time > 60) {
+            let hrs = data.time / 60;
+            let rounded = Math.ceil(hrs * 4) / 4;
+            timeInfoEl.textContent = rounded + " Hours";
+          } else {
+            timeInfoEl.textContent = data.time + " minutes";
+          }
+        } else {
+          let totalDistance = 0,
+            totalTime = 0;
+          selectedRoutes.forEach(id => {
+            totalDistance += routeData[id].distance;
+            totalTime += routeData[id].time;
+          });
+          routeInfoEl.textContent = "";
+          distanceInfoEl.textContent = totalDistance + " miles";
+          if (totalTime > 60) {
+            let hrs = totalTime / 60;
+            let rounded = Math.ceil(hrs * 4) / 4;
+            timeInfoEl.textContent = rounded + " Hours";
+          } else {
+            timeInfoEl.textContent = totalTime + " minutes";
+          }
+        }
+        if (selectedTowns.length === 0) {
+          townInfoEl.textContent = "";
+          reservoirInfoEl.textContent = "";
+        } else {
+          const townNames = selectedTowns.map(id => townData[id].name);
+          townInfoEl.textContent = townNames.join(" - ");
+          const reservoirs = new Set();
+          selectedTowns.forEach(id => {
+            townData[id].reservoirs.forEach(r => reservoirs.add(r));
+          });
+          reservoirInfoEl.textContent = Array.from(reservoirs).join(", ");
+        }
+      }
+      /* ----- Toggle Selections ----- */
+      function toggleTownSelection(evt) {
+        const group = evt.currentTarget;
+        const id = group.id;
+        if (!townData[id]) return;
+        // Get the fill element (assumed to be the path with class "cls-1")
+        const fillPath = group.querySelector("path.cls-1");
+        if (selectedTowns.includes(id)) {
+          // Deselect the town.
+          selectedTowns = selectedTowns.filter(item => item !== id);
+          if (fillPath) {
+            fillPath.style.fill = "#fff";
+            // Trigger the pulse animation on deselection (optional)
+            fillPath.classList.add("pulse");
+            setTimeout(() => {
+              fillPath.classList.remove("pulse");
+            }, 300);
+          }
+        } else {
+          // Select the town.
+          selectedTowns.push(id);
+          if (fillPath) {
+            fillPath.style.fill = "#B75548";
+            // Add the pulse effect upon selection.
+            fillPath.classList.add("pulse");
+            setTimeout(() => {
+              fillPath.classList.remove("pulse");
+            }, 300);
+          }
+        }
+        updateInfoBox();
+      }
+
+      function toggleRouteSelection(evt) {
+        const elem = evt.target;
+        const id = elem.id;
+        if (!routeData[id]) return;
+        if (selectedRoutes.includes(id)) {
+          selectedRoutes = selectedRoutes.filter(item => item !== id);
+          elem.style.stroke = "#000";
+        } else {
+          selectedRoutes.push(id);
+          elem.style.stroke = "#99CA3C";
+        }
+        // Add pulse animation class
+        elem.classList.add("pulse");
+        // Remove the class after the animation duration (300ms)
+        setTimeout(() => {
+          elem.classList.remove("pulse");
+        }, 300);
+        updateInfoBox();
+      }
+
+      function toggleTownSelection(evt) {
+        const group = evt.currentTarget;
+        const id = group.id;
+        if (!townData[id]) return;
+        // Instead of changing the fill of every path in the group,
+        // only change the fill of the element with class "cls-1"
+        const fillPath = group.querySelector("path.cls-1");
+        if (selectedTowns.includes(id)) {
+          selectedTowns = selectedTowns.filter(item => item !== id);
+          if (fillPath) fillPath.style.fill = "#fff";
+        } else {
+          selectedTowns.push(id);
+          if (fillPath) fillPath.style.fill = "#B75548";
+        }
+        updateInfoBox();
+      }
+
+      function toggleTownSelection(evt) {
+        const group = evt.currentTarget; // The 
+        < g > element
+        for the town
+        const id = group.id;
+        if (!townData[id]) return;
+        // Get all 
+        < path > elements inside the group.
+        const allPaths = group.querySelectorAll("path");
+        // Check if this town is already selected.
+        if (selectedTowns.includes(id)) {
+          // Deselect the town.
+          selectedTowns = selectedTowns.filter(item => item !== id);
+          allPaths.forEach(p => {
+            // If it's the fill element (assumed to have class "cls-1"), reset its fill.
+            if (p.classList.contains("cls-1")) {
+              p.style.fill = "#fff";
+            }
+            // Add pulse to both fill and stroke.
+            p.classList.add("pulse");
+            setTimeout(() => {
+              p.classList.remove("pulse");
+            }, 300);
+          });
+        } else {
+          // Select the town.
+          selectedTowns.push(id);
+          allPaths.forEach(p => {
+            // If it's the fill element, update its fill color.
+            if (p.classList.contains("cls-1")) {
+              p.style.fill = "#B75548";
+            }
+            // Add the pulse effect on selection.
+            p.classList.add("pulse");
+            setTimeout(() => {
+              p.classList.remove("pulse");
+            }, 300);
+          });
+        }
+        updateInfoBox();
+      }
+      Object.keys(routeData).forEach(id => {
+        const elem = document.getElementById(id);
+        if (elem) {
+          elem.style.cursor = "pointer";
+          elem.addEventListener("click", toggleRouteSelection);
+        }
+      });
+      Object.keys(townData).forEach(id => {
+        const group = document.getElementById(id);
+        if (group) {
+          group.style.cursor = "pointer";
+          group.addEventListener("click", toggleTownSelection);
+        }
+      });
+      // Function to construct and open a Google Maps loop route URL based on both selected towns and routes.
+      function openGoogleMapsRoute() {
+        // Combine the selected items from both towns and routes.
+        const combinedSelected = [...selectedTowns, ...selectedRoutes];
+        // Need at least 2 stops to build a route.
+        if (combinedSelected.length < 2) {
+          alert("Please select at least two items (towns or routes) to create a driving route.");
+          return;
+        }
+        // Convert each selected item to its GPS coordinate in "lat,lng" format.
+        const coords = combinedSelected.map(id => {
+          if (townData[id]) {
+            const gps = townData[id].gps;
+            return gps.lat + "," + gps.lng;
+          } else if (routeData[id] && routeData[id].gps) {
+            const gps = routeData[id].gps;
+            return gps.lat + "," + gps.lng;
+          } else {
+            return null; // Skip if no GPS data is available.
+          }
+        }).filter(coord => coord !== null);
+        if (coords.length < 2) {
+          alert("Not enough GPS coordinates available to build a route.");
+          return;
+        }
+        // Set the first coordinate as both origin and destination to form a loop.
+        const origin = coords[0];
+        const destination = coords[0];
+        // Any remaining coordinates become waypoints.
+        let waypoints = "";
+        if (coords.length > 1) {
+          waypoints = "&waypoints=" + coords.slice(1).join("|");
+        }
+        // Construct the Google Maps URL.
+        const mapUrl = "https://www.google.com/maps/dir/?api=1" + "&origin=" + origin + "&destination=" + destination + waypoints + "&travelmode=driving";
+        window.open(mapUrl, "_blank");
+      }
+      // Attach the event listener to the button (assuming your button has id="mapRouteBtn")
+      document.getElementById("mapRouteBtn").addEventListener("click", openGoogleMapsRoute);
+      /* ----- Button Handlers ----- */
+      document.getElementById("clearBtn").addEventListener("click", function() {
+        selectedRoutes.forEach(id => {
+          const elem = document.getElementById(id);
+          if (elem) {
+            elem.style.stroke = "#000";
+          }
+        });
+        selectedRoutes = [];
+        selectedTowns.forEach(id => {
+          const group = document.getElementById(id);
+          if (group) {
+            const fillPath = group.querySelector("path.cls-1");
+            if (fillPath) {
+              fillPath.style.fill = "#fff";
+            }
+          }
+        });
+        selectedTowns = [];
+        updateInfoBox();
+      });
+      document.getElementById("printBtn").addEventListener("click", function() {
+        html2canvas(document.body).then(canvas => {
+          const dataUrl = canvas.toDataURL("image/png");
+          let windowContent = ' < !DOCTYPE html > ';
+          windowContent += ' < html > ';
+          windowContent += ' < head > < title > Print canvas < /title> < /head>';
+          windowContent += ' < body > ';
+          windowContent += ' < img src = "' + dataUrl + '" > ';
+          windowContent += ' < /body>';
+          windowContent += ' < /html>';
+          const printWin = window.open('', '', 'width=800,height=600');
+          printWin.document.open();
+          printWin.document.write(windowContent);
+          printWin.document.close();
+          printWin.focus();
+          printWin.print();
+          printWin.close();
+        });
+      });
+    </script>
+  </body>
+</html>
